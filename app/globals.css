@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Theme tokens ---- */
+:root,
+html.dark {
+  color-scheme: dark;
+  --page: #080711;
+  --page-grad-1: rgba(124, 58, 237, 0.16);
+  --page-grad-2: rgba(56, 242, 224, 0.1);
+  --page-grad-3: rgba(124, 58, 237, 0.1);
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-2: rgba(255, 255, 255, 0.03);
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --surface-solid: #12101f;
+  --elevated: rgba(23, 20, 38, 0.82);
+  --hairline: rgba(255, 255, 255, 0.1);
+  --input-bg: rgba(13, 11, 26, 0.7);
+  --content: #f4f4fb;
+  --content-2: #cbd2e0;
+  --muted: #94a3b8;
+  --faint: #6b7488;
+  --img-bg: #12101f;
+}
+
+html.light {
+  color-scheme: light;
+  --page: #f5f6fb;
+  --page-grad-1: rgba(124, 58, 237, 0.12);
+  --page-grad-2: rgba(18, 217, 198, 0.1);
+  --page-grad-3: rgba(124, 58, 237, 0.08);
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-2: rgba(15, 23, 42, 0.035);
+  --surface-hover: rgba(15, 23, 42, 0.06);
+  --surface-solid: #ffffff;
+  --elevated: rgba(255, 255, 255, 0.88);
+  --hairline: rgba(15, 23, 42, 0.1);
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --content: #0f172a;
+  --content-2: #334155;
+  --muted: #526077;
+  --faint: #7b8598;
+  --img-bg: #eef1f7;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-page text-content2 antialiased;
+  background-image:
+    radial-gradient(60rem 60rem at 12% -10%, var(--page-grad-1), transparent 60%),
+    radial-gradient(50rem 50rem at 100% 0%, var(--page-grad-2), transparent 55%),
+    radial-gradient(40rem 40rem at 50% 120%, var(--page-grad-3), transparent 60%);
+  background-attachment: fixed;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Reusable component classes ---- */
+@layer components {
+  .glass {
+    @apply border border-hairline bg-surface backdrop-blur-xl;
+  }
+  .glass-strong {
+    @apply border border-hairline bg-elevated backdrop-blur-2xl;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+      transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400
+      focus-visible:ring-offset-2 focus-visible:ring-offset-page disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-br from-brand-400 to-brand-600 text-white shadow-glow
+      hover:from-brand-300 hover:to-brand-500 hover:shadow-[0_0_50px_-6px_rgba(124,58,237,0.7)];
+  }
+  .btn-ghost {
+    @apply btn border border-hairline bg-surface-2 text-content2 backdrop-blur hover:bg-surface-hover hover:text-content;
+  }
+  .btn-whatsapp {
+    @apply btn bg-[#25D366] text-[#053a1e] hover:bg-[#2ee06f] shadow-[0_0_34px_-10px_rgba(37,211,102,0.7)];
+  }
+  .input {
+    @apply w-full rounded-xl border border-hairline px-4 py-2.5 text-sm text-content
+      placeholder:text-faint transition focus:border-brand-400/60 focus:outline-none
+      focus:ring-2 focus:ring-brand-400/25;
+    background-color: var(--input-bg);
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface-2
+      px-3 py-1.5 text-xs font-medium text-content2 transition;
+  }
+}
+
+/* subtle custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.35);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.6);
+  background-clip: padding-box;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-brand-300 via-brand-400 to-cyber-400 bg-clip-text text-transparent;
+}
+html.dark .text-gradient {
+  @apply from-white via-brand-100 to-cyber-400;
+}
