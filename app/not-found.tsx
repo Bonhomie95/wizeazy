@@ -1,45 +1,37 @@
 import Link from "next/link";
-import { Home, ShieldCheck, Zap, Search } from "lucide-react";
+import { Home, Search, ShieldCheck } from "lucide-react";
+import { LogoMark, Wordmark } from "@/components/brand/Logo";
 
 export default function NotFound() {
   return (
     <main className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-4 text-center">
-      {/* decorative orbs */}
-      <div className="pointer-events-none absolute -left-20 top-10 h-72 w-72 rounded-full bg-brand-500/20 blur-3xl animate-float" />
-      <div className="pointer-events-none absolute -right-16 bottom-10 h-64 w-64 rounded-full bg-cyber-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(124,58,237,0.22),transparent)]" />
 
-      <div className="relative z-10 flex flex-col items-center">
-        <Link href="/" className="mb-8 flex items-center gap-2.5">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 shadow-glow">
-            <Zap className="h-5 w-5 text-white" fill="currentColor" />
-          </span>
-          <span className="text-lg font-extrabold tracking-tight text-content">
-            Wizeazy<span className="text-brand-400">.</span>
-          </span>
+      <Link href="/" className="rise mb-10 flex items-center gap-2.5" aria-label="Wizeazy home">
+        <LogoMark size={36} />
+        <Wordmark />
+      </Link>
+
+      <p className="rise text-[clamp(6rem,22vw,11rem)] font-semibold leading-none tracking-[-0.06em] text-content" style={{ ["--rise-delay" as string]: "60ms" }}>
+        4<span className="serif-accent text-brand-500 dark:text-brand-300">0</span>4
+      </p>
+      <h1 className="rise mt-2 text-2xl font-semibold tracking-tight text-content sm:text-3xl" style={{ ["--rise-delay" as string]: "120ms" }}>
+        This page went out of stock
+      </h1>
+      <p className="rise mx-auto mt-3 max-w-md text-muted" style={{ ["--rise-delay" as string]: "160ms" }}>
+        The page you&apos;re looking for doesn&apos;t exist or has moved. Let&apos;s get you back to the good stuff.
+      </p>
+
+      <div className="rise mt-8 flex flex-col items-center gap-2.5 sm:flex-row" style={{ ["--rise-delay" as string]: "220ms" }}>
+        <Link href="/" className="btn-primary">
+          <Home className="h-4 w-4" /> Back to store
         </Link>
-
-        <p className="text-[7rem] font-extrabold leading-none text-gradient sm:text-[10rem]">
-          404
-        </p>
-        <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-content sm:text-3xl">
-          This page went out of stock
-        </h1>
-        <p className="mx-auto mt-3 max-w-md text-muted">
-          The page you're looking for doesn't exist or may have moved. Let's get
-          you back to the good stuff.
-        </p>
-
-        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
-          <Link href="/" className="btn-primary">
-            <Home className="h-4 w-4" /> Back to store
-          </Link>
-          <Link href="/#shop" className="btn-ghost">
-            <Search className="h-4 w-4" /> Browse products
-          </Link>
-          <Link href="/admin" className="btn-ghost">
-            <ShieldCheck className="h-4 w-4" /> Admin
-          </Link>
-        </div>
+        <Link href="/#shop" className="btn-ghost">
+          <Search className="h-4 w-4" /> Browse products
+        </Link>
+        <Link href="/admin" className="btn-quiet">
+          <ShieldCheck className="h-4 w-4" /> Admin
+        </Link>
       </div>
     </main>
   );

@@ -27,48 +27,34 @@ export function Pagination({
   if (totalPages <= 1) return null;
 
   return (
-    <nav
-      className="mt-10 flex items-center justify-center gap-1.5"
-      aria-label="Pagination"
-    >
-      <button
-        onClick={() => onChange(page - 1)}
-        disabled={page === 1}
-        className="btn-ghost !px-2.5 !py-2"
-        aria-label="Previous page"
-      >
-        <ChevronLeft className="h-4 w-4" />
+    <nav className="mt-12 flex items-center justify-center gap-1.5" aria-label="Pagination">
+      <button type="button" onClick={() => onChange(page - 1)} disabled={page === 1} className="icon-btn" aria-label="Previous page">
+        <ChevronLeft className="h-5 w-5" />
       </button>
-
-      {pageList(page, totalPages).map((p, i) =>
-        p === "…" ? (
-          <span key={`gap-${i}`} className="px-2 text-sm text-faint">
-            …
-          </span>
-        ) : (
-          <button
-            key={p}
-            onClick={() => onChange(p)}
-            aria-current={p === page ? "page" : undefined}
-            className={cn(
-              "grid h-10 min-w-10 place-items-center rounded-xl px-3 text-sm font-semibold transition",
-              p === page
-                ? "bg-gradient-to-br from-brand-400 to-brand-600 text-white shadow-glow"
-                : "border border-hairline bg-surface-2 text-content2 hover:bg-surface-hover hover:text-content",
-            )}
-          >
-            {p}
-          </button>
-        ),
-      )}
-
-      <button
-        onClick={() => onChange(page + 1)}
-        disabled={page === totalPages}
-        className="btn-ghost !px-2.5 !py-2"
-        aria-label="Next page"
-      >
-        <ChevronRight className="h-4 w-4" />
+      <div className="flex items-center gap-1 rounded-full border border-hairline bg-surface-solid p-1">
+        {pageList(page, totalPages).map((p, i) =>
+          p === "…" ? (
+            <span key={`gap-${i}`} className="px-2 text-sm text-faint">
+              …
+            </span>
+          ) : (
+            <button
+              key={p}
+              type="button"
+              onClick={() => onChange(p)}
+              aria-current={p === page ? "page" : undefined}
+              className={cn(
+                "tabular grid h-9 min-w-9 place-items-center rounded-full px-3 text-sm font-semibold transition-all duration-300 ease-spring",
+                p === page ? "bg-content text-page" : "text-content2 hover:bg-surface-hover hover:text-content",
+              )}
+            >
+              {p}
+            </button>
+          ),
+        )}
+      </div>
+      <button type="button" onClick={() => onChange(page + 1)} disabled={page === totalPages} className="icon-btn" aria-label="Next page">
+        <ChevronRight className="h-5 w-5" />
       </button>
     </nav>
   );

@@ -1,16 +1,78 @@
 "use client";
 
-import { icons, type LucideProps } from "lucide-react";
+import {
+  BatteryCharging,
+  Cable,
+  Camera,
+  Cpu,
+  Fan,
+  Gamepad2,
+  Gift,
+  HardDrive,
+  Headphones,
+  House,
+  Keyboard,
+  Laptop,
+  LayoutGrid,
+  Lightbulb,
+  Monitor,
+  Mouse,
+  Package,
+  Plug,
+  Printer,
+  Router,
+  Smartphone,
+  Speaker,
+  Tablet,
+  Tag,
+  Tv,
+  Usb,
+  Watch,
+  Wifi,
+  type LucideIcon,
+  type LucideProps,
+} from "lucide-react";
 
 /**
- * Render a Lucide icon by its string name (used so categories can store an
- * icon name as data). Falls back to a neutral Tag icon if the name is unknown.
+ * Renders a category icon by its stored string name.
+ *
+ * An explicit map (instead of lucide's full `icons` object) keeps the
+ * bundle tiny: importing every lucide icon used to add ~110 KB gzipped of
+ * JavaScript to every page. Unknown names fall back to a neutral Tag.
  */
-export function Icon({
-  name,
-  ...props
-}: { name: string } & LucideProps) {
-  const LucideIcon = icons[name as keyof typeof icons] ?? icons.Tag;
+const ICONS: Record<string, LucideIcon> = {
+  Smartphone,
+  Laptop,
+  Headphones,
+  Watch,
+  Gamepad2,
+  Tablet,
+  Camera,
+  Cable,
+  Tv,
+  Monitor,
+  Speaker,
+  Keyboard,
+  Mouse,
+  HardDrive,
+  Cpu,
+  BatteryCharging,
+  Router,
+  Wifi,
+  Usb,
+  Plug,
+  Printer,
+  Fan,
+  Lightbulb,
+  House,
+  Gift,
+  Package,
+  Tag,
+  LayoutGrid,
+};
+
+export function Icon({ name, ...props }: { name: string } & LucideProps) {
+  const LucideIcon = ICONS[name] ?? Tag;
   return <LucideIcon {...props} />;
 }
 
@@ -24,6 +86,7 @@ export const iconChoices = [
   "Camera",
   "Cable",
   "Tv",
+  "Monitor",
   "Speaker",
   "Keyboard",
   "Mouse",
@@ -31,5 +94,11 @@ export const iconChoices = [
   "Cpu",
   "BatteryCharging",
   "Router",
+  "Wifi",
+  "Plug",
+  "Printer",
+  "Fan",
+  "Lightbulb",
+  "House",
   "Tag",
 ];

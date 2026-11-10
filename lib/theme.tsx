@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { THEME_STORAGE_KEY as STORAGE_KEY } from "./theme-script";
 
 type Theme = "dark" | "light";
 
@@ -16,10 +17,6 @@ const ThemeContext = createContext<{
   setTheme: (t: Theme) => void;
 } | null>(null);
 
-const STORAGE_KEY = "wizeazy.theme";
-
-/** Inline script (stringified) applied before paint to prevent a theme flash. */
-export const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.classList.add(t);}catch(e){document.documentElement.classList.add('dark');}})();`;
 
 function currentFromDom(): Theme {
   if (typeof document === "undefined") return "dark";

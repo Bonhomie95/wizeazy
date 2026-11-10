@@ -29,6 +29,8 @@ export interface Product {
   /** optional technical specs shown on the product view */
   specs?: Spec[];
   featured?: boolean;
+  /** optional stock-keeping code; used to match rows when re-importing */
+  sku?: string;
   createdAt: number;
 }
 
