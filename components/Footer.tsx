@@ -1,15 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Zap } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { socialLinks } from "@/lib/utils";
-import {
-  WhatsAppIcon,
-  InstagramIcon,
-  SnapchatIcon,
-  TelegramIcon,
-} from "./SocialIcons";
+import { LogoMark, Wordmark } from "@/components/brand/Logo";
+import { Reveal } from "./ui/Reveal";
+import { WhatsAppIcon, InstagramIcon, SnapchatIcon, TelegramIcon } from "./SocialIcons";
 
 export function Footer() {
   const { settings } = useStore();
@@ -17,61 +14,72 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   const channels = [
-    { href: links.whatsapp, label: "WhatsApp", Icon: WhatsAppIcon },
-    { href: links.instagram, label: "Instagram", Icon: InstagramIcon },
-    { href: links.snapchat, label: "Snapchat", Icon: SnapchatIcon },
-    { href: links.telegram, label: "Telegram", Icon: TelegramIcon },
+    { href: links.instagram, label: "Instagram", handle: `@${settings.instagram}`, Icon: InstagramIcon },
+    { href: links.snapchat, label: "Snapchat", handle: `@${settings.snapchat}`, Icon: SnapchatIcon },
+    { href: links.telegram, label: "Telegram", handle: `@${settings.telegram}`, Icon: TelegramIcon },
   ];
 
   return (
-    <footer id="contact" className="relative scroll-mt-24 border-t border-hairline">
-      {/* Contact CTA */}
-      <div className="mx-auto max-w-7xl px-4 py-16">
-        <div className="relative overflow-hidden rounded-3xl glass-strong p-8 text-center shadow-card sm:p-12">
-          <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand-500/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-16 -left-10 h-48 w-48 rounded-full bg-cyber-500/10 blur-3xl" />
-          <div className="relative">
-            <h2 className="text-2xl font-extrabold tracking-tight text-content sm:text-3xl">
-              Ready to grab your next gadget?
-            </h2>
-            <p className="mx-auto mt-2 max-w-lg text-muted">
-              Message us on any platform — we reply fast and help you pick the
-              perfect device.
-            </p>
-            <div className="mx-auto mt-6 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4">
-              {channels.map(({ href, label, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-2 rounded-2xl border border-hairline bg-surface-2 px-4 py-5 text-sm font-semibold text-content2 transition hover:-translate-y-0.5 hover:border-brand-400/40 hover:bg-surface-hover hover:text-content"
-                >
-                  <Icon className="h-6 w-6 text-brand-400" />
-                  {label}
-                </a>
-              ))}
+    <footer id="contact" className="relative scroll-mt-24">
+      <div className="mx-auto max-w-7xl px-4 py-20 lg:py-28">
+        <Reveal className="relative overflow-hidden rounded-[36px] border border-hairline bg-surface-solid p-8 shadow-soft sm:p-14">
+          <div className="pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(closest-side,rgba(124,58,237,0.18),transparent)]" />
+          <div className="relative grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+            <div>
+              <p className="eyebrow">Talk to us</p>
+              <h2 className="mt-3 text-balance text-[clamp(2.2rem,5vw,3.8rem)] font-semibold leading-[1] tracking-[-0.045em] text-content">
+                Questions? <span className="serif-accent text-brand-500 dark:text-brand-300">Just ask.</span>
+              </h2>
+              <p className="mt-4 max-w-md text-[17px] leading-relaxed text-muted">
+                Tell us what you need and your budget — we&apos;ll reply fast and help you pick the right device.
+              </p>
+              <a
+                href={links.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-whatsapp mt-8 !min-h-[3.25rem] !px-7 text-[15px]"
+              >
+                <WhatsAppIcon className="h-5 w-5" /> Chat on WhatsApp
+              </a>
             </div>
+
+            <ul className="grid gap-2">
+              {channels.map(({ href, label, handle, Icon }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-4 rounded-2xl border border-hairline px-4 py-3.5 transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:border-hairline-strong hover:bg-surface-2"
+                  >
+                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-surface-2 text-content">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="flex-1">
+                      <span className="block text-sm font-semibold text-content">{label}</span>
+                      <span className="block text-[13px] text-faint">{handle}</span>
+                    </span>
+                    <ArrowUpRight className="h-4 w-4 text-faint transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-content" />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        </Reveal>
       </div>
 
-      {/* Bottom bar */}
       <div className="border-t border-hairline">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-7 sm:flex-row">
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-brand-400 to-brand-600 shadow-glow">
-              <Zap className="h-4 w-4 text-white" fill="currentColor" />
-            </span>
-            <span className="font-extrabold text-content">
-              {settings.storeName}
-              <span className="text-brand-400">.</span>
-            </span>
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row">
+          <Link href="/" className="flex items-center gap-2.5" aria-label={`${settings.storeName} home`}>
+            <LogoMark size={30} />
+            <Wordmark name={settings.storeName} className="text-[17px]" />
           </Link>
-
-          <p className="text-xs text-faint">
+          <p className="text-center text-xs text-faint">
             © {year} {settings.storeName}. Premium phones, laptops &amp; gadgets.
           </p>
+          <Link href="/admin" className="text-xs font-medium text-faint transition hover:text-content">
+            Store admin
+          </Link>
         </div>
       </div>
     </footer>

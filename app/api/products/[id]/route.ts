@@ -1,35 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deleteProduct, updateProduct } from "@/lib/db";
+import { deleteProduct, getCategoryIds, updateProduct } from "@/lib/db";
+import { invalidateStore } from "@/lib/cache";
+import { isSafeId, readJson, sanitizeProduct } from "@/lib/product-input";
 
 export const dynamic = "force-dynamic";
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const body = await req.json().catch(() => null);
-  if (!body) {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+  if (!isSafeId(params.id)) return NextResponse.json({ error: "Product not found." }, { status: 404 });
+
+  const body = await readJson(req, 64 * 1024);
+  if (!body.ok) return NextResponse.json({ error: body.error }, { status: 400 });
+
+  // Whitelisted fields only — prevents mass-assignment of arbitrary keys.
+  const parsed = sanitizeProduct(body.value, "patch");
+  if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: 400 });
+
+  const { set, unset } = parsed.value;
+  if (set.categoryId && !(await getCategoryIds()).has(set.categoryId)) {
+    return NextResponse.json({ error: "That category no longer exists." }, { status: 400 });
   }
 
-  const patch: Record<string, unknown> = { ...body };
-  if (patch.price !== undefined) patch.price = Number(patch.price) || 0;
-  if (patch.salePrice !== undefined) {
-    patch.salePrice = Number(patch.salePrice) > 0 ? Number(patch.salePrice) : undefined;
-  }
-  if (patch.quantity !== undefined) {
-    patch.quantity = Math.max(0, Math.floor(Number(patch.quantity) || 0));
-  }
-  if (typeof patch.name === "string") patch.name = patch.name.trim();
-  if (typeof patch.description === "string") {
-    patch.description = patch.description.trim() || undefined;
-  }
-
-  const product = await updateProduct(params.id, patch);
-  if (!product) {
-    return NextResponse.json({ error: "Product not found." }, { status: 404 });
-  }
+  const product = await updateProduct(params.id, set, unset);
+  if (!product) return NextResponse.json({ error: "Product not found." }, { status: 404 });
+  invalidateStore();
   return NextResponse.json(product);
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+  if (!isSafeId(params.id)) return NextResponse.json({ error: "Product not found." }, { status: 404 });
   await deleteProduct(params.id);
+  invalidateStore();
   return NextResponse.json({ ok: true });
 }

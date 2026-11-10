@@ -11,24 +11,26 @@ const config: Config = {
     extend: {
       colors: {
         // Semantic, theme-aware tokens (backed by CSS variables)
-        page: "var(--page)",
+        page: "rgb(var(--page-rgb) / <alpha-value>)",
+        "page-2": "rgb(var(--page-2-rgb) / <alpha-value>)",
         surface: "var(--surface)",
         "surface-2": "var(--surface-2)",
         "surface-hover": "var(--surface-hover)",
-        "surface-solid": "var(--surface-solid)",
+        "surface-solid": "rgb(var(--surface-solid-rgb) / <alpha-value>)",
         elevated: "var(--elevated)",
         hairline: "var(--hairline)",
+        "hairline-strong": "var(--hairline-strong)",
         content: "var(--content)",
         content2: "var(--content-2)",
         muted: "var(--muted)",
         faint: "var(--faint)",
         ink: {
-          950: "#080711",
-          900: "#0d0b1a",
-          850: "#12101f",
-          800: "#171426",
-          700: "#211d33",
-          600: "#2d2842",
+          950: "#08080a",
+          900: "#0e0e11",
+          850: "#121215",
+          800: "#18181c",
+          700: "#232328",
+          600: "#2e2e35",
         },
         brand: {
           50: "#f2ecff",
@@ -44,14 +46,25 @@ const config: Config = {
           400: "#38f2e0",
           500: "#12d9c6",
         },
+        deal: {
+          400: "#ff8a4c",
+          500: "#ff6a2b",
+          // text/badge shade: 5.2:1 with white (WCAG AA for small text)
+          600: "#c2410c",
+        },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["var(--font-serif)", "ui-serif", "Georgia", "serif"],
       },
       boxShadow: {
-        glow: "0 0 40px -8px rgba(124,58,237,0.55)",
-        "glow-cyan": "0 0 34px -10px rgba(56,242,224,0.5)",
-        card: "0 20px 50px -24px rgba(0,0,0,0.75)",
+        glow: "0 10px 40px -12px rgba(124,58,237,0.55)",
+        soft: "var(--shadow-md)",
+        lift: "var(--shadow-lg)",
+        card: "var(--shadow-md)",
+      },
+      transitionTimingFunction: {
+        spring: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
       keyframes: {
         "fade-up": {
@@ -60,7 +73,7 @@ const config: Config = {
         },
         float: {
           "0%,100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-12px)" },
+          "50%": { transform: "translateY(-10px)" },
         },
         shimmer: {
           "100%": { transform: "translateX(100%)" },
@@ -68,12 +81,17 @@ const config: Config = {
         "spin-slow": {
           "100%": { transform: "rotate(360deg)" },
         },
+        "pulse-ring": {
+          "0%": { transform: "scale(0.9)", opacity: "0.7" },
+          "100%": { transform: "scale(1.6)", opacity: "0" },
+        },
       },
       animation: {
-        "fade-up": "fade-up 0.6s cubic-bezier(0.22,1,0.36,1) both",
-        float: "float 6s ease-in-out infinite",
+        "fade-up": "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) both",
+        float: "float 7s ease-in-out infinite",
         shimmer: "shimmer 1.6s infinite",
         "spin-slow": "spin-slow 22s linear infinite",
+        "pulse-ring": "pulse-ring 1.8s cubic-bezier(0.16,1,0.3,1) infinite",
       },
     },
   },
